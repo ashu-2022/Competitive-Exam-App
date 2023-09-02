@@ -1,0 +1,205 @@
+.result__container{
+    padding: 20px 30px;
+
+    .result__mode{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        padding-bottom: 10px;
+
+        button{
+            text-align: center;
+            border: 1px solid black;
+            margin: 6px 10px;
+            padding: 4px 14px;
+            border-radius: 4px;
+            background-color: #ffffff;
+            
+
+            &:hover{
+                background-color: #1178b9;
+                border: 1px solid #1178b9;
+                color: #ffffff;
+            }
+        }
+
+        .active{
+            background-color: #279EFF;
+            border: 1px solid #279EFF;
+            color: white;
+        }
+    }
+}
+
+.insight{
+    border: 1px solid black;
+    border-radius: 6px;
+    margin: 15px;
+    padding: 10px 20px;
+    width: 250px;
+}
+
+
+.question__attempted{
+    .insight_value{
+        color: green;
+        margin: 5px 0px
+    }
+}
+
+.quiz__marks{
+    .insight_value{
+        color: #10C3F8;
+        margin: 5px 0px
+    }
+}
+
+.quiz__time{
+    .insight_value{
+        color: #ffc107;
+        margin: 5px 0px
+    }
+}
+
+.progress__container{
+    height: 10px;
+    width: 100%;
+    background-color: #eaecef;
+    border-radius: 35px;
+
+    .quest__attempted__progress{
+        height: 10px;
+        background-color: green;
+        transition: width .6s ease;
+        border-radius: 35px;
+    }
+
+    .quiz__marks__progress{
+        height: 10px;
+        background-color: #10C3F8;
+        transition: width .6s ease;
+        border-radius: 35px;
+    }
+
+    .quiz__time__progress{
+        height: 10px;
+        background-color: #ffc107;
+        transition: width .6s ease;
+        border-radius: 35px;
+    }
+}
+
+.quickReport__container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid #5c5448;
+    border-radius: 8px;
+    margin-top: 10px;
+    .quickReport__right{
+        background-color: #ADC4CE;
+        height: 300px;
+        width: 200px;
+        border-radius: 8px;
+
+        .quiz__score{
+            display: flex;
+            justify-content: center;
+            align-items: CENTER;
+            flex-direction: column;
+            height: 100%;
+            p{
+                font-size: 25px;
+            }
+        }
+
+        .score__obtained{
+            font-size: 60px;
+            color: green;
+        }
+    }
+}
+
+.re-quiz{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 10px;
+
+    button{
+        text-align: center;
+        border: 1px solid black;
+        margin: 6px 10px;
+        padding: 4px 14px;
+        border-radius: 4px;
+        background-color: #ffffff;
+        
+
+        &:hover{
+            background-color: #1178b9;
+            border: 1px solid #1178b9;
+            color: #ffffff;
+        }
+    }
+}
+
+
+.question__item{
+    border: 1px solid black;
+    margin: 30px 15px;
+    padding: 20px 15px;
+    border-radius: 20px;
+    .question__no{
+        color: red;
+        font-size: 14px;
+    }
+    ul{
+        list-style: none;
+        li{
+            border: 1px solid #cccccc;
+            padding: 10px;
+            margin: 20px 0px;
+            word-wrap: break-word;
+
+        }
+        .right__answer{
+            border: 3px solid green;
+            border-radius: 6px;
+            background-color: #def0c2;
+        }
+    }
+
+    .question__answer{
+        button{
+            text-align: center;
+            margin: 6px 10px;
+            padding: 4px 14px;
+            border-radius: 4px;
+            background-color: #33BBC5;
+            border: 1px solid #33BBC5;
+            color: #ffffff;
+            outline: none;
+            cursor: pointer;
+
+            &:hover{
+                background-color: #1178b9;
+                border: 1px solid #1178b9;
+            }
+        }
+
+        .user__answered{
+            color:#0F6292
+        }
+        .correct__answered{
+            color: green;
+        }
+
+        .show__answered{
+            font-weight: 600;
+            margin-top: 8px;
+        }
+    }
+
+}

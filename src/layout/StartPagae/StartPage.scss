@@ -1,0 +1,45 @@
+.startPage__container{
+    background-color: antiquewhite;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .profile__pic{
+        width: 90px;
+        object-fit: cover;
+        opacity: 0.7;
+    }
+
+    .start__form{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #fff;
+        width: max(300px , 50%);
+        height: 400px;
+        border-radius: 12px;
+    }
+}
+
+@media screen and (max-width:781px) {
+    .startPage__container{
+        .start__form{
+            width: max(320px , 75%);
+    
+        }
+    }
+
+}
+
+@media screen and (max-width:576px) {
+    .startPage__container{
+        .start__form{
+            width: max(320px , 85%);
+    
+        }
+    }
+
+}
