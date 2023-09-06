@@ -3,7 +3,6 @@ import "./Question.scss";
 import axios from "axios";
 import { ProfileMenu } from "../index";
 import { useNavigate } from "react-router-dom";
-import { setCookie, getCookie, eraseCookie} from '../../constants'
 const API_URL = "https://opentdb.com/api.php?amount=15&type=multiple";
 const Question = ({user_id}) => {
   const navigator = useNavigate()
@@ -14,7 +13,7 @@ const Question = ({user_id}) => {
   const [quizQuestStatus, setQuizQuestStatus] = useState({})
   const [submitQuiz, setSubmitQuiz] = useState(false)
   const [quizTime, setQuizTime] = useState("30:00");
-  const [quizStartTime, setQuizStartTime] = useState(0)
+  const [quizStartTime, setQuizStartTime] = useState(null)
   const getCookie = (name) =>{
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
@@ -25,7 +24,6 @@ const Question = ({user_id}) => {
     }
     return null;
   }
-  // console.log('quiz_start_timing', getCookie('quiz_start_timing'));
 
   const setCookie = (name,value,minutes)=>{
     var expires = "";
@@ -40,22 +38,21 @@ const Question = ({user_id}) => {
   useEffect(() => {
     fetchQuestions();
     let quiz_start_time = getCookie('quiz_start_timing');
-    console.log("was quiz_start_time", quiz_start_time)
     let current_time = new Date();
-    if (quiz_start_time === null) {
+    if (!quiz_start_time) {
       setCookie('quiz_start_timing', current_time, 30);
       setQuizStartTime(current_time);
-      setInterval(() => {
-        updateQuizTime()
-      }, 1000)
     } else {
       setQuizStartTime(quiz_start_time);
-      setInterval(() => {
-        updateQuizTime()
-      }, 1000)
     }
-    console.log("quizStartTime", quizStartTime)
   }, [])
+
+  useEffect(() => {
+    let id =  setInterval(() => {
+      updateQuizTime()
+    }, 1000)
+    return () => clearInterval(id)
+  }, [quizStartTime])
 
   useEffect(() => {
     setAnswer("")
@@ -86,7 +83,7 @@ const Question = ({user_id}) => {
       'user_submission': userData,
       'quizQuestStatus': quizQuestStatus,
       'user_id': user_id,
-      'timeTaken': quizTime
+      'time_left': quizTime
 
     };
     navigator('/quiz-result', {state:user_quiz_data})
@@ -107,9 +104,10 @@ const Question = ({user_id}) => {
   };
 
   const updateQuizTime = () => {
-    let time_prev = quizStartTime;
+    let time_prev = new Date(quizStartTime);
     let time_now = new Date();
     let time_diff = Math.abs(time_now - time_prev)
+    // console.log(time_prev, time_now, time_diff);
     let msec = time_diff;
     let time_diff_hours = Math.floor(msec/1000/60/60)
     msec -= time_diff_hours * 1000 * 60 * 60;
@@ -117,7 +115,7 @@ const Question = ({user_id}) => {
     msec -= time_diff_mins * 1000 * 60;
     let time_diff_min_sec = Math.floor(msec/1000)
     msec -= time_diff_min_sec * 1000;
-    setQuizTime(`${30-time_diff_mins}:${59-time_diff_min_sec}`)
+    setQuizTime(`${29-time_diff_mins}:${59-time_diff_min_sec}`)
   }
 
 
@@ -138,6 +136,12 @@ const Question = ({user_id}) => {
           }
         }));
         setAnswer("");
+        setQuizQuestStatus(prev => ({
+          ...prev,
+          'answered': prev.answered + 1,
+          'not_visited': prev.not_visited ? prev.not_visited - 1 : prev.not_visited,
+        }))
+
 
       } else {
         setUserData(prev => ({
@@ -145,6 +149,11 @@ const Question = ({user_id}) => {
             'status': 'not_answered'
           }
         }));
+        setQuizQuestStatus(prev => ({
+          ...prev,
+          'not_answered': prev.not_answered + 1,
+          'not_visited': prev.not_visited ? prev.not_visited - 1 : prev.not_visited,
+        }))
       }
 
     } else if (action === "mark_next") {
@@ -156,17 +165,36 @@ const Question = ({user_id}) => {
           }
         }));
         setAnswer("");
+        setQuizQuestStatus(prev => ({
+          ...prev,
+          'answered_willReview': prev.answered_willReview + 1,
+          'not_visited': prev.not_visited ? prev.not_visited - 1 : prev.not_visited,
+        }))
       } else {
         setUserData(prev => ({
           ...prev, [currentQuestion]: {  
             'status': 'willReview'
           }
         }));
+
+        setQuizQuestStatus(prev => ({
+          ...prev,
+          'willReview': prev.willReview + 1,
+          'not_visited': prev.not_visited ? prev.not_visited - 1 : prev.not_visited,
+        }))
       }
 
     } 
-
+    const { answered, not_answered, answered_willReview, willReview, not_visited } = quizQuestStatus;
+    if ((answered + not_answered + answered_willReview + willReview) === questions.length) {
+      setQuizQuestStatus(prev => ({
+        ...prev, 
+        'not_visited' : 0
+      }))
+    }
+    
   }
+
   
 
   return (
@@ -216,15 +244,20 @@ const Question = ({user_id}) => {
           <p> Loading ...</p>
         )}
 
+        
         <div className="question__action">
-          <div>
-            <button onClick={() => nextQuestionHandler('mark_next')}>Mark for Review & Next</button>
-            <button onClick={() => setAnswer("")}>Clear Response</button>
+            <div>
+              <button onClick={() => nextQuestionHandler('mark_next')}>Mark for Review & Next</button>
+              <button onClick={() => setAnswer("")}>Clear Response</button>
+            </div>
+            <div>
+              <button className="save__btn" onClick={() => nextQuestionHandler('save_next')}>Save & Next</button>
           </div>
-          <div>
-            <button className="save__btn" onClick={() => nextQuestionHandler('save_next')}>Save & Next</button>
+          <div className='submit__btn mobile-show'>
+              <button onClick={() => setSubmitQuiz(true)}>Submit</button>
           </div>
         </div>
+
       </div>
 
       {submitQuiz && (

@@ -9,7 +9,7 @@ const Result = () => {
     const location = useLocation();
     const navigate = useNavigate()
     let state = location?.state;
-    console.log("user_quiz_data", state);
+    // console.log("user_quiz_data", state);
   
     const eraseCookie = (name) => {   
         document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';

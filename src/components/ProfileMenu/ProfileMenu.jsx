@@ -29,7 +29,32 @@ const ProfileMenu = ({ questions, nextQuestionHandler, userData ,quizQuestStatus
               <p>{user_id}</p>
           </div>
           <div className='questions__menu'>
-              <div className='info__menu'>
+          <div className='info__menu'>
+                  <div className='answered'>
+                      <p>&nbsp;&nbsp;</p> Answered
+                  </div>
+                  <div className='not__answered'>
+                      <p>&nbsp;&nbsp;</p>
+                      Not Answered
+                  </div>
+                  <div className='not__visited'>
+                      <p>&nbsp;&nbsp;</p>
+                      Not Visited
+                  </div>
+                  <div className='marked'>
+                      <p>&nbsp;&nbsp; </p>
+                      Marked
+                  </div>
+                  <div className='answered__marked'>
+                      <p>&nbsp;&nbsp;</p>
+                      <div>                          
+                        Answered & Marked for Review
+                        <p>(will be consider for evaluation)</p>
+                      </div>
+                  </div>
+                  
+              </div>
+              {/* <div className='info__menu'>
                   <div className='answered'>
                       <p>{answered}</p> Answered
                   </div>
@@ -53,7 +78,7 @@ const ProfileMenu = ({ questions, nextQuestionHandler, userData ,quizQuestStatus
                       </div>
                   </div>
                   
-              </div>
+              </div> */}
               <div className='quiz__title'>Frontend Enginner</div>
               <p className='ps-2'>Choose a Question</p>
               <div className='question__list'>
@@ -73,7 +98,7 @@ const ProfileMenu = ({ questions, nextQuestionHandler, userData ,quizQuestStatus
               
           </div>
           <div className='submit__btn'>
-              <button onClick={setSubmitQuiz}>Submit</button>
+              <button onClick={() => setSubmitQuiz(true)}>Submit</button>
           </div>
     </div>
   )

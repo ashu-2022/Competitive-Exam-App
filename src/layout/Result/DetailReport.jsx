@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const DetailReport = ({ state }) => {
     const { questions, quizQuestStatus, user_id, user_submission } = state;
-    console.log(questions, quizQuestStatus, user_id, user_submission)
+    // console.log(questions, quizQuestStatus, user_id, user_submission)
   return (
       <div className='detailReport__container'>
           {questions.map((item, index) => {
@@ -16,18 +16,16 @@ export default DetailReport
 
 
 const QuestionSolution = ({ question, incorrect_answers, correct_answer, Qno, user_submission }) => {
-    console.log(question, incorrect_answers, correct_answer, Qno, user_submission)
+    // console.log(question, incorrect_answers, correct_answer, Qno, user_submission)
     const [showAnswer, setShowAnswer] = useState(false)
     const getUserAnswered = () => {
-        console.log("inside getUserAnswered()", user_submission,Qno,user_submission[Qno])
         let user_answered = "";
         try {
             const answer_selected = user_submission[Qno]['answer_selected'];
             if (answer_selected) user_answered = answer_selected;
         } catch {
-            
+            // console.log("Error occur during answer_selected accessing ...")
         }
-        console.log("user_answered", user_answered)
         return user_answered
     }
     return (
@@ -36,8 +34,8 @@ const QuestionSolution = ({ question, incorrect_answers, correct_answer, Qno, us
             <p>{question}</p>
             <ul>
                 {
-                    [...incorrect_answers, correct_answer].map(item => (
-                        <li className={`${((item===correct_answer)&&showAnswer)?'right__answer':''}`}>{item}</li>
+                    [...incorrect_answers, correct_answer].map((item, index) => (
+                        <li key={index} className={`${((item===correct_answer)&&showAnswer)?'right__answer':''}`}>{item}</li>
                     ))
                } 
             </ul>

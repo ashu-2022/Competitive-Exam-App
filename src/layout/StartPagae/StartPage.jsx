@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './StartPage.scss';
 import { userIcon } from "../../assets"
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,14 @@ const StartPage = () => {
         console.log(userEmail)
         if(userEmail.length) navigate('/quiz-start', {state:userEmail})
     }
+    
+    const eraseCookie = (name) => {   
+        document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    useEffect(() => {
+        eraseCookie('quiz_start_timing');
+    }, [])
 
   return (
       <div className='startPage__container'>

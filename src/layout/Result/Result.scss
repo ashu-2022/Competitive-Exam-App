@@ -203,3 +203,13 @@
     }
 
 }
+
+@media screen and (max-width:576px) {
+    .quickReport__container{
+        flex-direction: column;
+        padding: 10px;
+    }
+    .insight{
+        width: 180px;
+    }
+}
