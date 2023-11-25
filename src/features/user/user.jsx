@@ -3,25 +3,16 @@ import { CFLogo } from "../../assets";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUserInfo, saveUser } from "./userSlice";
 import { Navigate } from "react-router-dom";
-import { useEffect } from "react";
 const User = () => {
   const userData = useSelector(selectUserInfo);
   console.log("userData", userData);
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   if (userData?.email) {
-  //     console.log("navigagate");
-  //     <Navigate to='/start-quiz' replace={true} />
-  //   }
-  // }, [userData])
-
-
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   return (
     <>
             {userData && <Navigate to="/start-quiz" replace={true} />}

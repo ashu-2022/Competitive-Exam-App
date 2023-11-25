@@ -7,12 +7,12 @@ import App from './App';
 import './index.scss';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
     <Router>
       <App />
     </Router>
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
