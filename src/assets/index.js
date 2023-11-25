@@ -1,6 +1,8 @@
 import userIcon from './icons/user.png';
-import CausalFunnelLogo from './logos/causalfunnel.svg';
+import CFWhiteLogo from './logos/CFWhiteLogo.svg';
+import CFLogo from './logos/CFLogo.png'
 export {
     userIcon,
-    CausalFunnelLogo
+    CFWhiteLogo,
+    CFLogo
 }
