@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectAllQuestions } from "../../questions/questionSlice";
 import { selectResult } from "../resultSlice";
-
+import QAns from './QAns'
 const AnswerMenu = [
-  { name: "All", id: "all" },
-  { name: "Correct Answers", id: "correct" },
-  { name: "Wrong Answers", id: "incorrect" },
-  { name: "Not Attempted Questions", id: "notAttempted" },
+  { name: "All", id: "allQuest" },
+  { name: "Correct Answers", id: "answeredCorrectQuest" },
+  { name: "Wrong Answers", id: "answeredIncorrectQuest" },
+  { name: "Not Attempted Questions", id: "notAnsweredQuest" },
 ];
 
 function classNames(...classes) {
@@ -17,9 +17,13 @@ function classNames(...classes) {
 const SolutionReport = () => {
     const Questions = useSelector(selectAllQuestions);
     const ExamResult = useSelector(selectResult)
+    const [currentAnsView, setCurrentAnswerView] = useState("allQuest");
+    const [examQuestions, setExamQuestions]= useState([])
     console.log("Questions Result", Questions);
     console.log("ExamResult", ExamResult)
-  const [currentAnsView, setCurrentAnswerView] = useState("all");
+    useEffect(() => {
+        setExamQuestions(ExamResult[currentAnsView])
+    },[currentAnsView, ExamResult])
   return (
     <div>
       <span className="isolate inline-flex flex-wrap rounded-md shadow-sm mb-5">
@@ -38,7 +42,10 @@ const SolutionReport = () => {
             {tabItem.name}
           </button>
         ))}
-      </span>
+          </span>
+          <div>
+              {examQuestions.length > 0 && <QAns questionList={ examQuestions} />}
+          </div>
     </div>
   );
 };
