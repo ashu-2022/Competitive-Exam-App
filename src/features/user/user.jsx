@@ -31,7 +31,6 @@ const User = () => {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
             <form className="space-y-6" noValidate onSubmit={    handleSubmit((formData) => {
-      console.log("formData", formData);
       dispatch(saveUser(formData));
     })}>
               <div>

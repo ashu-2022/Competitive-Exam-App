@@ -1,24 +1,38 @@
 import { useEffect, useState } from "react";
 import { RadioGroup } from "@headlessui/react";
-import { useSelector } from "react-redux";
-import { selectUserInfo } from "../../user/userSlice";
+import { useDispatch } from "react-redux";
+import { updateQuestionState} from '../questionSlice'
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-function QuestionItem({ question, key }) {
-  console.log("question", question);
+function QuestionItem({ question, setCurrentQuestIndex }) {
+  // console.log('question------->',question)
+  const dispatch = useDispatch()
   const [selected, setSelected] = useState(null);
   const [options, setOptions] = useState([]);
+  const resetHandler = () => setSelected(null);
+  const nextQuestionHandler = (saveType) => {
+    let nextQuestIndex = (question.sno % 15);
+    delete question.sno;
+    dispatch(updateQuestionState({ ...question, 'userAnswer': selected, 'userAnswerType': saveType }))
+    setCurrentQuestIndex(nextQuestIndex)
+    setSelected(null)
+  }
 
   useEffect(() => {
-      if (Object.keys(question).length) {
+    let {incorrect_answers, userAnswer} = question
+    if (incorrect_answers) {
         let randomIndex = Math.floor(Math.random() * 4);
         let tempOption = [...question.incorrect_answers];
-        tempOption.splice(randomIndex, 0, question.correct_answer);
-        setOptions(tempOption);
+      tempOption.splice(randomIndex, 0, question.correct_answer);
+      setOptions(tempOption);
+      if(userAnswer) setSelected(userAnswer);
+    
     }
   }, [question]);
+
+  if(!(question?.question)) return <div>Loading ...</div>
 
   return (
     <>
@@ -98,12 +112,14 @@ function QuestionItem({ question, key }) {
             <div className="flex justify-start gap-4 flex-wrap">
               <button
                 type="button"
+                onClick={()=>nextQuestionHandler('marked_next')}
                 className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-indigo-600 hover:border hover:border-indigo-600"
               >
                 Mark for Review & Next
               </button>
               <button
                 type="button"
+                onClick={resetHandler}
                 className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-indigo-600 hover:border hover:border-indigo-600"
               >
                 Clear Response
@@ -112,6 +128,7 @@ function QuestionItem({ question, key }) {
             <div>
               <button
                 type="button"
+                onClick={()=>{nextQuestionHandler('saved_next')}}
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Save & Next
@@ -119,7 +136,6 @@ function QuestionItem({ question, key }) {
             </div>
           </div>
         </div>
-
       </div>
     </>
   );
