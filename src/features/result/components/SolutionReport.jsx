@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { PrinterIcon } from "@heroicons/react/20/solid";
 import { useSelector } from "react-redux";
 import { selectAllQuestions } from "../../questions/questionSlice";
 import { selectResult } from "../resultSlice";
-import QAns from './QAns'
+import QAns from "./QAns";
 const AnswerMenu = [
   { name: "All", id: "allQuest" },
   { name: "Correct Answers", id: "answeredCorrectQuest" },
@@ -11,24 +12,29 @@ const AnswerMenu = [
 ];
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(" ");
 }
 
+const printResultHandler = () => {
+  window.print();
+};
+
 const SolutionReport = () => {
-    const Questions = useSelector(selectAllQuestions);
-    const ExamResult = useSelector(selectResult)
-    const [currentAnsView, setCurrentAnswerView] = useState("allQuest");
-    const [examQuestions, setExamQuestions]= useState([])
-    console.log("Questions Result", Questions);
-    console.log("ExamResult", ExamResult)
-    useEffect(() => {
-        setExamQuestions(ExamResult[currentAnsView])
-    },[currentAnsView, ExamResult])
+  const Questions = useSelector(selectAllQuestions);
+  const ExamResult = useSelector(selectResult);
+  const [currentAnsView, setCurrentAnswerView] = useState("allQuest");
+  const [examQuestions, setExamQuestions] = useState([]);
+  console.log("Questions Result", Questions);
+  console.log("ExamResult", ExamResult);
+  useEffect(() => {
+    setExamQuestions(ExamResult[currentAnsView]);
+  }, [currentAnsView, ExamResult]);
   return (
     <div>
       <span className="isolate inline-flex flex-wrap rounded-md shadow-sm mb-5">
         {AnswerMenu?.map((tabItem, index) => (
-          <button key={index}
+          <button
+            key={index}
             type="button"
             onClick={(e) => setCurrentAnswerView(tabItem.id)}
             className={classNames(
@@ -42,10 +48,22 @@ const SolutionReport = () => {
             {tabItem.name}
           </button>
         ))}
-          </span>
-          <div>
-              {examQuestions.length > 0 && <QAns questionList={ examQuestions} />}
-          </div>
+      </span>
+      <div>
+        {examQuestions.length > 0 && <QAns questionList={examQuestions} />}
+      </div>
+      {currentAnsView === "allQuest" ? (
+        <div className="text-center">
+          <button
+            type="button"
+            onClick={printResultHandler}
+            className="inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Print Result
+            <PrinterIcon className="-mr-0.5 h-5 w-5" aria-hidden="true" />
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };
