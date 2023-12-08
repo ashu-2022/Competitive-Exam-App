@@ -1,6 +1,30 @@
 # Competitive-Exam-Quiz-App
 Build using React.js
 
+# Project structure
+
+It follows a simple structure :
+```
+📦
+├─ src/
+│   ├─ app/
+│   │  └─ store.js
+│   ├─ assets/
+│   │  ├─ icons/
+│   │  └─ logos/
+│   ├─ features/
+│   │  ├─ questions/
+│   │  ├─ result/
+│   │  └─ user/
+│   ├─ pages/
+│   ├─ App.js
+│   ├─ index.js
+│   └─ index.scss
+└─ public/
+    └─ index.html
+
+```
+
 ### App Main Module
 - Welcome 
 - Quiz 
