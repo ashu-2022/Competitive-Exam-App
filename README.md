@@ -1,7 +1,11 @@
 # Competitive-Exam-Quiz-App
-Build using React.js
 
-# Project structure
+## Tech Stack 
+- React.js
+- Redux
+- Tailwind CSS
+
+## Project structure
 
 It follows a simple structure :
 ```
